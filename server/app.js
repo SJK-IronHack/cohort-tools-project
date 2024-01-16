@@ -1,6 +1,9 @@
 const express = require("express");
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
+const cohorts = require("./cohorts.json");
+const students = require("./students.json");
+
 const PORT = 5005;
 
 // STATIC DATA
@@ -25,10 +28,17 @@ app.use(cookieParser());
 // ROUTES - https://expressjs.com/en/starter/basic-routing.html
 // Devs Team - Start working on the routes here:
 // ...
-app.get("/docs", (req, res) => {
+app.get("/docs", (_, res) => {
   res.sendFile(__dirname + "/views/docs.html");
 });
 
+app.get("/api/cohorts", (_, res) => {
+  res.json(cohorts);
+});
+
+app.get("/api/students", (_, res) => {
+  res.json(students);
+});
 
 // START SERVER
 app.listen(PORT, () => {
