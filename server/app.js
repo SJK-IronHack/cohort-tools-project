@@ -31,11 +31,11 @@ app.use(cookieParser());
 
 // ROUTES - https://expressjs.com/en/starter/basic-routing.html
 // Devs Team - Start working on the routes here:
-// ...
 app.get("/docs", (_, res) => {
   res.sendFile(__dirname + "/views/docs.html");
 });
 
+/*
 app.get("/api/cohorts", (_, res) => {
   res.json(cohorts);
 });
@@ -43,6 +43,34 @@ app.get("/api/cohorts", (_, res) => {
 app.get("/api/students", (_, res) => {
   res.json(students);
 });
+*/
+
+//  GET  /cohorts - Retrieve all cohorts from the database
+app.get("/api/cohorts", (req, res) => {
+  Cohort.find({})
+    .then((cohorts) => {
+      console.log("Retrieved cohorts ->", cohorts);
+      res.json(cohorts);
+    })
+    .catch((error) => {
+      console.error("Error while retrieving cohorts ->", error);
+      res.status(500).send({ error: "Failed to retrieve cohorts" });
+    });
+});
+
+//  GET  /students - Retrieve all students from the database
+app.get("/api/students", (req, res) => {
+  Student.find({})
+    .then((students) => {
+      console.log("Retrieved students ->", students);
+      res.json(students);
+    })
+    .catch((error) => {
+      console.error("Error while retrieving students ->", error);
+      res.status(500).send({ error: "Failed to retrieve students" });
+    });
+});
+
 
 // START SERVER
 app.listen(PORT, () => {
