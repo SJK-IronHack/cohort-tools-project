@@ -35,15 +35,13 @@ app.get("/docs", (_, res) => {
   res.sendFile(__dirname + "/views/docs.html");
 });
 
-/*
-app.get("/api/cohorts", (_, res) => {
-  res.json(cohorts);
-});
 
-app.get("/api/students", (_, res) => {
-  res.json(students);
-});
-*/
+// app.get("/api/cohorts", (_, res) => {
+//   res.json(cohorts);
+// });
+
+
+
 
 //  GET  /cohorts - Retrieve all cohorts from the database
 app.get("/api/cohorts", (req, res) => {
@@ -57,8 +55,27 @@ app.get("/api/cohorts", (req, res) => {
       res.status(500).send({ error: "Failed to retrieve cohorts" });
     });
 });
+//STUDENT ROUTS
 
-//  GET  /students - Retrieve all students from the database
+// 2.3.1. Return all the cohorts from the static students array
+app.get("/api/students", (_, res) => {
+  res.json(students);
+});
+
+// 2.3.2. | Create the a new student 
+app.post("/api/students", async (req, res) => {
+const payload = req.body
+try {
+const newStudent = await Student.create(payload);
+res.status(201).json(newStudent);
+}
+catch(error) {
+console.log(error) 
+res.status(500).json({error, message: "Failed to create a student"})
+}
+}) 
+
+// 2.3.3  GET  /students - Retrieve all students from the database
 app.get("/api/students", (req, res) => {
   Student.find({})
     .then((students) => {
@@ -70,6 +87,8 @@ app.get("/api/students", (req, res) => {
       res.status(500).send({ error: "Failed to retrieve students" });
     });
 });
+
+
 
 
 // START SERVER
