@@ -92,7 +92,6 @@ app.get("/api/students", async (req, res) => {
   try {
     const allStudents = await Student.find()
     res.status(200).json(allStudents)
-
   }
   catch (error) {
     res.status(500).json({ error, message: "Failed to get all students" })
