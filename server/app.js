@@ -59,7 +59,7 @@ app.post("/api/students", async (req, res) => {
 // 2.3.3.  GET  /students - Retrieves all students from the database
 app.get("/api/students", async (req, res) => {
   try {
-    const allStudents = await Student.find()
+    const allStudents = await Student.find().populate("cohort") 
     res.status(200).json(allStudents)
   }
   catch (error) {
@@ -71,7 +71,7 @@ app.get("/api/students", async (req, res) => {
 app.get("/api/students/cohort/:cohortId", async (req, res) => {
   try {
     const cohortId = req.params.cohortId;
-    const allStudents = await Cohort.findById(cohortId);
+    const allStudents = await Student.find({ cohort: cohortId }).populate("cohort"); 
     if (!allStudents) {
       return res.status(404).json({ error, message: "Students not found." })
     }
@@ -86,7 +86,7 @@ app.get("/api/students/cohort/:cohortId", async (req, res) => {
 app.get("/api/students/:studentId", async (req, res) => {
   try {
     const studentId = req.params.studentId;
-    const oneStudent = await Student.findById(studentId);
+    const oneStudent = await Student.findById(studentId).populate("cohort"); 
     if (!oneStudent) {
       return res.status(404).json({ error, message: "Student not found." })
     }
