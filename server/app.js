@@ -58,9 +58,9 @@ app.get("/api/cohorts", (req, res) => {
 //STUDENT ROUTS
 
 // 2.3.1. Return all the cohorts from the static students array
-app.get("/api/students", (_, res) => {
-  res.json(students);
-});
+// app.get("/api/students", (_, res) => {
+//   res.json(students);
+// });
 
 // 2.3.2. | Create the a new student 
 app.post("/api/students", async (req, res) => {
@@ -76,17 +76,6 @@ app.post("/api/students", async (req, res) => {
 })
 
 // 2.3.3  GET  /students - Retrieve all students from the database
-// app.get("/api/students", (req, res) => {
-//   Student.find({})
-//     .then((students) => {
-//       console.log("Retrieved students ->", students);
-//       res.json(students);
-//     })
-//     .catch((error) => {
-//       console.error("Error while retrieving students ->", error);
-//       res.status(500).send({ error: "Failed to retrieve students" });
-//     });
-// });
 
 app.get("/api/students", async (req, res) => {
   try {
@@ -102,7 +91,7 @@ app.get("/api/students", async (req, res) => {
 
 app.get("/api/students/cohort/:cohortId", async (req, res) => {
   try {
-    const cohortId = req.params.id;
+    const cohortId = req.params.cohortId;
     const allStudents = await Cohort.findById(cohortId);
     if (!allStudents) {
       return res.status(404).json({ error, message: "students not found" })
