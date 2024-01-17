@@ -160,7 +160,7 @@ app.get("/api/cohorts", async (req, res) => {
 })
 
   // 2.3.10 GET /api/cohorts/:cohortId - Retrieves a specific cohort by id
-  app.get("/api/students/:cohortId", async (req, res) => {
+  app.get("/api/cohorts/:cohortId", async (req, res) => {
     try {
       const cohortId = req.params.cohortId;
       const oneCohort = await Cohort.findById(cohortId);
