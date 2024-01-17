@@ -36,33 +36,14 @@ app.get("/docs", (_, res) => {
 });
 
 
-// app.get("/api/cohorts", (_, res) => {
-//   res.json(cohorts);
-// });
+//STUDENT ROUTES
 
-
-
-
-//  GET  /cohorts - Retrieve all cohorts from the database
-app.get("/api/cohorts", (req, res) => {
-  Cohort.find({})
-    .then((cohorts) => {
-      console.log("Retrieved cohorts ->", cohorts);
-      res.json(cohorts);
-    })
-    .catch((error) => {
-      console.error("Error while retrieving cohorts ->", error);
-      res.status(500).send({ error: "Failed to retrieve cohorts" });
-    });
+// 2.3.1. GET - Returns all the cohorts from the static students array
+app.get("/api/studentsFromJson", (_, res) => {
+   res.json(students);
 });
-//STUDENT ROUTS
 
-// 2.3.1. Return all the cohorts from the static students array
-// app.get("/api/students", (_, res) => {
-//   res.json(students);
-// });
-
-// 2.3.2. | Create the a new student 
+// 2.3.2. POST - Creates a new student 
 app.post("/api/students", async (req, res) => {
   const payload = req.body
   try {
@@ -75,8 +56,7 @@ app.post("/api/students", async (req, res) => {
   }
 })
 
-// 2.3.3  GET  /students - Retrieve all students from the database
-
+// 2.3.3.  GET  /students - Retrieves all students from the database
 app.get("/api/students", async (req, res) => {
   try {
     const allStudents = await Student.find()
@@ -87,8 +67,7 @@ app.get("/api/students", async (req, res) => {
   }
 })
 
-//2.3.4. GET /api/students/cohort/:cohortId - Retrieves all of the students for a given cohort
-
+//2.3.4. GET /api/students/cohort/:cohortId - Retrieves all of the students from a given cohort
 app.get("/api/students/cohort/:cohortId", async (req, res) => {
   try {
     const cohortId = req.params.cohortId;
@@ -103,10 +82,37 @@ app.get("/api/students/cohort/:cohortId", async (req, res) => {
   }
 })
 
-// 2.3.5.GET /api/students/:studentId - Retrieves a specific student by id
+// 2.3.5. GET /api/students/:studentId - Retrieves a specific student by id
 app.get("/api/students/:studentId", async (req, res) => {
-  const oneStudent = await Student.findById(studentId)
-})
+  try {
+    const studentId = req.params.studentId;
+    const oneStudent = await Student.findById(studentId);
+    res.status(200).json(oneStudent);
+  } catch (error) {
+    res.status(500).json({ error, message: "failed to get the student" });
+  }
+});
+
+
+// COHORT ROUTES
+
+// // app.get("/api/cohorts", (_, res) => {
+//   res.json(cohorts);
+// });
+
+
+//  GET  /cohorts - Retrieve all cohorts from the database
+app.get("/api/cohorts", (req, res) => {
+  Cohort.find({})
+    .then((cohorts) => {
+      console.log("Retrieved cohorts ->", cohorts);
+      res.json(cohorts);
+    })
+    .catch((error) => {
+      console.error("Error while retrieving cohorts ->", error);
+      res.status(500).send({ error: "Failed to retrieve cohorts" });
+    });
+});
 
 // START SERVER
 app.listen(PORT, () => {
