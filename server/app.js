@@ -64,32 +64,61 @@ app.get("/api/students", (_, res) => {
 
 // 2.3.2. | Create the a new student 
 app.post("/api/students", async (req, res) => {
-const payload = req.body
-try {
-const newStudent = await Student.create(payload);
-res.status(201).json(newStudent);
-}
-catch(error) {
-console.log(error) 
-res.status(500).json({error, message: "Failed to create a student"})
-}
-}) 
+  const payload = req.body
+  try {
+    const newStudent = await Student.create(payload);
+    res.status(201).json(newStudent);
+  }
+  catch (error) {
+    console.log(error)
+    res.status(500).json({ error, message: "Failed to create a student" })
+  }
+})
 
 // 2.3.3  GET  /students - Retrieve all students from the database
-app.get("/api/students", (req, res) => {
-  Student.find({})
-    .then((students) => {
-      console.log("Retrieved students ->", students);
-      res.json(students);
-    })
-    .catch((error) => {
-      console.error("Error while retrieving students ->", error);
-      res.status(500).send({ error: "Failed to retrieve students" });
-    });
-});
+// app.get("/api/students", (req, res) => {
+//   Student.find({})
+//     .then((students) => {
+//       console.log("Retrieved students ->", students);
+//       res.json(students);
+//     })
+//     .catch((error) => {
+//       console.error("Error while retrieving students ->", error);
+//       res.status(500).send({ error: "Failed to retrieve students" });
+//     });
+// });
 
+app.get("/api/students", async (req, res) => {
+  try {
+    const allStudents = await Student.find()
+    res.status(200).json(allStudents)
 
+  }
+  catch (error) {
+    res.status(500).json({ error, message: "Failed to get all students" })
+  }
+})
 
+//2.3.4. GET /api/students/cohort/:cohortId - Retrieves all of the students for a given cohort
+
+app.get("/api/students/cohort/:cohortId", async (req, res) => {
+  try {
+    const cohortId = req.params.id;
+    const allStudents = await Cohort.findById(cohortId);
+    if (!allStudents) {
+      return res.status(404).json({ error, message: "students not found" })
+    }
+    res.status(200).json(allStudents);
+  }
+  catch (error) {
+    res.status(500).json({ error, message: "Failed to get students of the cohort" })
+  }
+})
+
+// 2.3.5.GET /api/students/:studentId - Retrieves a specific student by id
+app.get("/api/students/:studentId", async (req, res) => {
+  const oneStudent = await Student.findById(studentId)
+})
 
 // START SERVER
 app.listen(PORT, () => {
