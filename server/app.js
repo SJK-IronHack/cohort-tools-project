@@ -39,7 +39,7 @@ app.get("/docs", (_, res) => {
 //STUDENT ROUTES
 
 // 2.3.1. GET - Returns all the cohorts from the static students array
-app.get("/api/studentsFromJson", (_, res) => {
+app.get("/api/studentsFromJson", (req, res) => {
    res.json(students);
 });
 
@@ -52,7 +52,7 @@ app.post("/api/students", async (req, res) => {
   }
   catch (error) {
     console.log(error)
-    res.status(500).json({ error, message: "Failed to create a student" })
+    res.status(500).json({ error, message: "Failed to create a student." })
   }
 })
 
@@ -63,7 +63,7 @@ app.get("/api/students", async (req, res) => {
     res.status(200).json(allStudents)
   }
   catch (error) {
-    res.status(500).json({ error, message: "Failed to get all students" })
+    res.status(500).json({ error, message: "Failed to get all students." })
   }
 })
 
@@ -73,12 +73,12 @@ app.get("/api/students/cohort/:cohortId", async (req, res) => {
     const cohortId = req.params.cohortId;
     const allStudents = await Cohort.findById(cohortId);
     if (!allStudents) {
-      return res.status(404).json({ error, message: "students not found" })
+      return res.status(404).json({ error, message: "Students not found." })
     }
     res.status(200).json(allStudents);
   }
   catch (error) {
-    res.status(500).json({ error, message: "Failed to get students of the cohort" })
+    res.status(500).json({ error, message: "Failed to get students of the cohort." })
   }
 })
 
@@ -87,32 +87,73 @@ app.get("/api/students/:studentId", async (req, res) => {
   try {
     const studentId = req.params.studentId;
     const oneStudent = await Student.findById(studentId);
+    if (!oneStudent) {
+      return res.status(404).json({ error, message: "Student not found." })
+    }
     res.status(200).json(oneStudent);
   } catch (error) {
-    res.status(500).json({ error, message: "failed to get the student" });
+    res.status(500).json({ error, message: "Failed to get the student." });
+  }
+});
+
+// 2.3.6. PUT /api/students/:studentId - Updates a specific student by id
+app.put("/api/students/:studentId", async (req, res) => {
+  try {
+    const studentId = req.params.studentId;
+    const updatedStudent = await Student.findByIdAndUpdate(studentId, req.body, {
+      new: true,
+    });
+    if (!updatedStudent) {
+      return res.status(404).json({ error, message: "Student not found." })
+    }
+    res.status(200).json(updatedStudent);
+  } catch (error) {
+    res.status(500).json({ error, message: "Failed to update the student information." });
+  }
+});
+
+// 2.3.7. DELETE /api/students/:studentId - Deletes a specific student by id
+app.delete("/api/students/:studentId", async (req, res) => {
+  try {
+    const studentId = req.params.studentId;
+    const deletedStudent = await Student.findByIdAndDelete(studentId);
+    if (!deletedStudent) {
+      return res.status(404).json({ error, message: "Student not found." })
+    }
+    res.status(200).send();
+  } catch (error) {
+    res.status(500).json({ error, message: "Failed to delete student." });
   }
 });
 
 
+
 // COHORT ROUTES
 
-// // app.get("/api/cohorts", (_, res) => {
-//   res.json(cohorts);
-// });
-
-
-//  GET  /cohorts - Retrieve all cohorts from the database
-app.get("/api/cohorts", (req, res) => {
-  Cohort.find({})
-    .then((cohorts) => {
-      console.log("Retrieved cohorts ->", cohorts);
-      res.json(cohorts);
-    })
-    .catch((error) => {
-      console.error("Error while retrieving cohorts ->", error);
-      res.status(500).send({ error: "Failed to retrieve cohorts" });
-    });
+// 2.3.1. GET - Returns all the cohorts from the static students array
+app.get("/api/cohortsFromJson", (req, res) => {
+   res.json(cohorts);
 });
+
+
+// 2.3.2. 
+
+
+
+// 2.3.3.  GET  /cohorts - Retrieves all cohorts from the database
+app.get("/api/students", async (req, res) => {
+  try {
+    const allCohorts = await Cohort.find()
+    res.status(200).json(allCohorts)
+  }
+  catch (error) {
+    res.status(500).json({ error, message: "Failed to get all cohorts." })
+  }
+})
+
+
+
+
 
 // START SERVER
 app.listen(PORT, () => {
