@@ -56,7 +56,7 @@ app.post("/api/students", async (req, res) => {
   }
 })
 
-// 2.3.3.  GET  /students - Retrieves all students from the database
+// 2.3.3. GET  /students - Retrieves all students from the database
 app.get("/api/students", async (req, res) => {
   try {
     const allStudents = await Student.find().populate("cohort") 
@@ -128,14 +128,13 @@ app.delete("/api/students/:studentId", async (req, res) => {
 
 
 
-
 //COHORT ROUTES
-// // 2.3.1. GET - Returns all the cohorts from the static students array
-// app.get("/api/cohortsFromJson", (req, res) => {
-//   res.json(cohorts);
-// });
+// 2.3.1. GET - Returns all the cohorts from the static students array
+  app.get("/api/cohortsFromJson", (req, res) => {
+    res.json(cohorts);
+  });
 
-  // 2.3.8 POST /api/cohorts - Creates a new cohort
+// 2.3.8 POST /api/cohorts - Creates a new cohort
   app.post("/api/cohorts", async (req, res) => {
     const payload = req.body
     try {
@@ -147,8 +146,8 @@ app.delete("/api/students/:studentId", async (req, res) => {
       res.status(500).json({ error, message: "Failed to create a Cohort" })
     }
   })
-  // 2.3.9. GET /api/cohorts - Retrieves all of the cohorts in the database collection
 
+// 2.3.9. GET /api/cohorts - Retrieves all of the cohorts in the database collection
 app.get("/api/cohorts", async (req, res) => {
   try {
     const allCohorts = await Cohort.find()
@@ -169,6 +168,7 @@ app.get("/api/cohorts", async (req, res) => {
       res.status(500).json({ error, message: "failed to get the cohort" });
     }
   });
+
   // 2.3.11. PUT /api/cohorts/:cohortId - Updates a specific cohort by id
   app.put("/api/cohorts/:cohortId", async (req, res) => {
     try {
@@ -186,6 +186,7 @@ app.get("/api/cohorts", async (req, res) => {
       res.status(500).json({ error, message: "Failed to update the cohort" });
     }
   });
+  
   // 2.3.12 DELETE /api/cohorts/:cohortId - Deletes a specific cohort by id
   app.delete("/api/cohorts/:cohortId", async (req, res) => {
   try {
