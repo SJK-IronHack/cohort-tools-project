@@ -36,18 +36,7 @@ app.get("/docs", (_, res) => {
   res.sendFile(__dirname + "/views/docs.html");
 });
 
-
-
-
-
-
-
-
-
-
-
-
-
+require('./error-handling/error.js')(app)
 
 // START SERVER
 app.listen(PORT, () => {
