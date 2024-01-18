@@ -188,8 +188,8 @@ app.get("/api/cohorts", async (req, res) => {
   });
   // 2.3.12 DELETE /api/cohorts/:cohortId - Deletes a specific cohort by id
   app.delete("/api/cohorts/:cohortId", async (req, res) => {
-    try {
-      const studentId = req.params.cohortId;
+  try {
+      const cohortId = req.params.cohortId;
       const deletedCohort = await Cohort.findByIdAndDelete(cohortId);
       if (!deletedCohort) {
         return res.status(404).json({ error, message: "Cohort not found." })
