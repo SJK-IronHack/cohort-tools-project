@@ -28,7 +28,7 @@ app.use(cookieParser());
 
 
 const indexRoutes = require('./routes/index.routes.js')
-app.use('/', indexRoutes)
+app.use('/api', indexRoutes)
 
 // ROUTES - https://expressjs.com/en/starter/basic-routing.html
 // Devs Team - Start working on the routes here:
