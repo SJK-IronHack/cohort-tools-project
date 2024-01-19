@@ -2,6 +2,7 @@ const express = require("express");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User.model");
+const { isAuthenticated } = require('../middlewares/route-guard.middleware')
 
 const router = express.Router();
 const saltRounds = 10;
@@ -83,6 +84,12 @@ router.post('/login', async (req, res) => {
         console.log(error);
         res.status(500).json({message: `Error logging in ${name}.`, error})
     }
+})
+
+router.get('/verify', isAuthenticated, async (req, res) => {
+    console.log(req.tokenPayload)
+    const currentUser = await User.findById(req.tokenPayload.userId)
+    res.status(200).json(currentUser)
 })
 
 module.exports = router;
