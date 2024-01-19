@@ -70,7 +70,7 @@ router.post('/login', async (req, res) => {
                         expiresIn: '5h',
                     })
 
-                res.status(200).json({ token: authToken }) // SENDING TOKEN TO THE CLIENT
+                res.status(200).json({ authToken: authToken }) // SENDING TOKEN TO THE CLIENT
             }
             else {
                 res.status(403).json({ message: 'Incorrect password or email.' })
