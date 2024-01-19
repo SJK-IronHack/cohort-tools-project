@@ -1,10 +1,7 @@
 //STUDENT ROUTES
-
 const Student = require("../models/Student.model");
-const router = require('express').Router();
-
 const students = require("../students.json");
-
+const router = require('express').Router();
 
 
 // 2.3.1. GET - Returns all the cohorts from the static students array
