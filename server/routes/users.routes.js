@@ -1,7 +1,7 @@
 const User = require("../models/User.model");
 const router = require('express').Router();
 
-// GET /user/:userId - Retrieves a specific user by id
+// GET /api/users/:userId - Retrieves a specific user by id
 router.get("/:userId", async (req, res) => {
     let userId
     try {
