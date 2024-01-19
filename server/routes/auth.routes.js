@@ -57,7 +57,7 @@ router.post('/login', async (req, res) => {
     try {
         const potentialUser = await User.findOne({ email: email.toLowerCase().trim() })
         if (potentialUser) {
-            if (bcrypt.compareSync(password, passwordHash)) {
+            if (bcrypt.compareSync(password, potentialUser.passwordHash)) {
                 // CREATING TOKEN ->
                 const authToken = jwt.sign(
                     {
