@@ -4,9 +4,6 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const mongoose = require("mongoose");
 
-
-
-
 const PORT = 5005;
 
 // STATIC DATA
@@ -29,6 +26,9 @@ app.use(cookieParser());
 
 const indexRoutes = require('./routes/index.routes.js')
 app.use('/api', indexRoutes)
+
+const authRoutes = require('./routes/auth.routes.js')
+app.use('/auth', authRoutes)
 
 // ROUTES - https://expressjs.com/en/starter/basic-routing.html
 // Devs Team - Start working on the routes here:
