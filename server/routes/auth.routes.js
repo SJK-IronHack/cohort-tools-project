@@ -11,7 +11,7 @@ router.post('/signup', async (req, res) => {
 
     // Check if the email or password or name is provided as an empty string 
     if (email === '' || password === '' || name === '') {
-        res.status(400).json({ message: "Provide email, password and name" });
+        res.status(400).json({ message: 'Provide email, password and name.' });
         return;
     }
 
@@ -33,7 +33,7 @@ router.post('/signup', async (req, res) => {
         const foundUser = await User.findOne({ email: email.toLowerCase().trim() })
 
         if (foundUser) {
-            res.status(400).json({ message: "User already exists." });
+            res.status(400).json({ message: 'User already exists.' });
             return;
         }
 
@@ -42,11 +42,11 @@ router.post('/signup', async (req, res) => {
         const userToRegister = { email: email, passwordHash, name: name }
 
         const newUser = await User.create(userToRegister)
-        res.status(201).json({ message: 'User created', newUser })
+        res.status(201).json({ message: 'User created.', newUser })
         console.log(newUser)
 
     } catch (error) {
-        res.status(500).json({ message: 'Error creating user', error })
+        res.status(500).json({ message: 'Error creating user.', error })
         console.log(error)
     }
 })
@@ -72,16 +72,16 @@ router.post('/login', async (req, res) => {
                 res.status(200).json({ token: authToken }) // SENDING TOKEN TO THE CLIENT
             }
             else {
-                res.status(403).json({ message: "Incorrect password or email" })
+                res.status(403).json({ message: 'Incorrect password or email.' })
             }
         }
         else {
-            res.status(404).json({ message: `User ${name} not found` })
+            res.status(404).json({ message: `User ${name} not found.` })
         }
 
     } catch (error) {
         console.log(error);
-        res.status(500).json({message: "Error logging in the user", error})
+        res.status(500).json({message: `Error logging in ${name}.`, error})
     }
 })
 
