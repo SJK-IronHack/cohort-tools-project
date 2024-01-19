@@ -6,16 +6,11 @@ const mongoose = require("mongoose");
 
 const PORT = 5005;
 
-// STATIC DATA
-// Devs Team - Import the provided files with JSON data of students and cohorts here:
-
 
 // INITIALIZE EXPRESS APP - https://expressjs.com/en/4x/api.html#express
 const app = express();
 
-
-// MIDDLEWARE (aka Express.js functions)
-// Research Team - Set up CORS middleware here:
+// MIDDLEWARE (Express.js functions)
 app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"));
@@ -23,19 +18,18 @@ app.use(express.static("public"));
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-
+// HANDLE ROUTES (api, authentication, documentation)
 const indexRoutes = require('./routes/index.routes.js')
 app.use('/api', indexRoutes)
 
 const authRoutes = require('./routes/auth.routes.js')
 app.use('/auth', authRoutes)
 
-// ROUTES - https://expressjs.com/en/starter/basic-routing.html
-// Devs Team - Start working on the routes here:
 app.get("/docs", (_, res) => {
   res.sendFile(__dirname + "/views/docs.html");
 });
 
+// HANDLE ERRORS
 require('./error-handling/error.js')(app)
 
 // START SERVER
